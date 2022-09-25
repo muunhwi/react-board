@@ -14,13 +14,13 @@ export const SideNav = ({ bar, isFirst, onClick, onLoginClick }) => {
         <div
           className={`${
             bar ? "animate-fadeIn3 " : "animate-fadeOut3 "
-          } min-w-full min-h-screen bg-black  absolute top-0`}
+          } min-w-full h-full bg-black  absolute top-0 z-20`}
           onClick={onClick}
         ></div>
         <div
           className={`${
             bar ? "animate-move " : "animate-revMove "
-          } bg-white min-h-screen shadow-xl w-80  absolute top-0`}
+          } bg-white h-full shadow-xl w-80  absolute top-0 z-30`}
         >
           <SideLoginBtn onClick={handleLoginOnClick} />
           <SideNavList />

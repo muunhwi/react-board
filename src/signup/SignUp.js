@@ -1,12 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import LoginSmallBtn from "../input/LoginSmallBtn";
+import { useState } from "react";
 import { TextField } from "../input/TextField";
 import Validation from "../input/Validation";
 import { Modal } from "../modal/Modal";
-import SignUp from "../signup/SignUp";
-import { LoginBottom } from "./LoginBottom";
 
 const emailInput = {
   id: "email",
@@ -22,6 +18,13 @@ const passwordInput = {
   label: "비밀번호",
 };
 
+const nicknameInput = {
+  id: "nickname",
+  type: "nickname",
+  placeholder: "닉네임을 입력해주세요",
+  label: "닉네임",
+};
+
 const inputType = [
   {
     name: "email",
@@ -33,39 +36,18 @@ const inputType = [
     valid: false,
     message: "비밀번호를 입력해주세요",
   },
+  {
+    name: "nickname",
+    valid: false,
+    message: "닉네임을 입력해주세요",
+  },
 ];
-export const LoginBtn = ({ loginModal, onClick }) => {
+const SignUp = ({ open, signUpOpenClick, loginOpenClick }) => {
   const [validationArr, setArr] = useState(inputType);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(false);
-  const [signUpOpen, setsignUpOpen] = useState(false);
+  const [nickname, setNickname] = useState("");
   const [globalError, setGlobalError] = useState("");
-
-  const signUpOpenClick = () => {
-    setGlobalError("");
-    setsignUpOpen(!signUpOpen);
-  };
-
-  const isLogin = async (token) => {
-    try {
-      const res = await axios.post("/token/expired", {
-        refreshToken: token,
-      });
-      if (res.data) {
-        setToken(true);
-      }
-    } catch (e) {
-      setToken(false);
-    }
-  };
-
-  useEffect(() => {
-    const token = sessionStorage.getItem("refresh_token");
-    if (token) {
-      isLogin(token);
-    }
-  }, [token]);
 
   const fieldChangeValidation = (name, value, type) => {
     const newValid = Validation(name, value, type);
@@ -83,6 +65,11 @@ export const LoginBtn = ({ loginModal, onClick }) => {
     fieldChangeValidation("password", e.target.value, ["required", "password"]);
   };
 
+  const handleOnNickname = (e) => {
+    setNickname(e.target.value);
+    fieldChangeValidation("nickname", e.target.value, ["required"]);
+  };
+
   const handleOnSubmit = async (e) => {
     const newArr = validationArr.map((arr) => {
       return { ...arr, isSubmit: true };
@@ -94,71 +81,46 @@ export const LoginBtn = ({ loginModal, onClick }) => {
       } else {
         const res = await axios({
           method: "post",
-          url: "/login",
+          url: "/signup",
 
           data: {
             email: email,
             password: password,
+            nickname: nickname,
           },
         });
-
-        if (res.data) {
-          sessionStorage.setItem("refresh_token", res.data.refreshToken);
-          sessionStorage.setItem("access_token", res.data.accessToken);
-          setToken(!token);
-          setGlobalError("");
-          onClick();
-        }
+        signUpOpenClick();
+        setGlobalError("");
+        alert("회원가입 완료!");
+        loginOpenClick();
       }
     } catch (e) {
+      console.log(e.response.data);
       const message = e.response.data.message;
-      if (message === "이메일") {
-        setGlobalError("이메일 또는 비밀번호가 틀립니다.");
+      if (message === "email") {
+        setGlobalError("이메일");
+      } else if (message === "nickname") {
+        setGlobalError("닉네임");
       }
     }
-  };
-
-  const handleOnLogout = () => {
-    sessionStorage.removeItem("refresh_token");
-    sessionStorage.removeItem("access_token");
-    setToken(!token);
   };
 
   const getValidation = (name) => {
     return validationArr?.filter((arr) => arr.name === name)[0];
   };
-
   return (
     <div>
-      {token ? (
-        <div className="flex gap-x-2">
-          <LoginSmallBtn onClick={handleOnLogout} text={"Logout"} />
-          <Link
-            className="w-16 h-8 shadow-sm flex justify-center items-center
-          border-inherit rounded-lg text-white transition ease-in-out 
-          bg-fuchsia-400 hover:-translate-y-1 hover:scale-105 hover:bg-fuchsia-400 duration-300 block"
-            to={"/write"}
-          >
-            글쓰기
-          </Link>
-        </div>
-      ) : (
-        <LoginSmallBtn onClick={onClick} text={"Login"} />
-      )}
       <Modal
-        title={"로그인"}
-        open={loginModal}
-        onClick={onClick}
+        title={"회원가입"}
+        open={open}
+        onClick={signUpOpenClick}
         onSubmit={handleOnSubmit}
-        bottomLink={
-          <LoginBottom
-            loginOpen={loginModal}
-            loginOpenClick={onClick}
-            signUpOpenClick={signUpOpenClick}
-          />
-        }
       >
-        <p className={"mt-2 text-sm text-red-600 "}>{globalError}</p>
+        {globalError !== "" ? (
+          <p className={"mt-2 text-sm text-red-600 "}>
+            중복된 {globalError} 입니다.
+          </p>
+        ) : null}
         <TextField
           input={emailInput}
           onChange={handleOnEmailChange}
@@ -169,12 +131,14 @@ export const LoginBtn = ({ loginModal, onClick }) => {
           onChange={handleOnPassword}
           validation={getValidation("password")}
         />
+        <TextField
+          input={nicknameInput}
+          onChange={handleOnNickname}
+          validation={getValidation("nickname")}
+        />
       </Modal>
-      <SignUp
-        open={signUpOpen}
-        signUpOpenClick={signUpOpenClick}
-        loginOpenClick={onClick}
-      />
     </div>
   );
 };
+
+export default SignUp;

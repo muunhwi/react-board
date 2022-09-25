@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { LoginBtn } from "../login/LoginBtn";
 import { Logo } from "../logo";
 import { SideNav } from "../side/SideNav";
@@ -6,7 +7,7 @@ import { NavList } from "./NavList";
 
 export const Nav = () => {
   const [sideBar, setBar] = useState("");
-  const [login, setLogin] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
   const [isFirst, setFirst] = useState(true);
 
   const handleSideBarOnClick = useCallback(() => {
@@ -15,8 +16,8 @@ export const Nav = () => {
   }, [sideBar, isFirst]);
 
   const handleLoginOnClick = useCallback(() => {
-    setLogin(!login);
-  }, [login]);
+    setLoginModal(!loginModal);
+  }, [loginModal]);
 
   return useMemo(
     () => (
@@ -24,7 +25,7 @@ export const Nav = () => {
         <div className="h-full container mx-auto flex justify-between p-3 xl:justify-evenly items-center">
           <Logo onClick={handleSideBarOnClick} />
           <NavList />
-          <LoginBtn login={login} onClick={handleLoginOnClick} />
+          <LoginBtn loginModal={loginModal} onClick={handleLoginOnClick} />
         </div>
         <SideNav
           bar={sideBar}
@@ -36,6 +37,6 @@ export const Nav = () => {
         />
       </div>
     ),
-    [sideBar, login, isFirst, handleSideBarOnClick, handleLoginOnClick]
+    [sideBar, loginModal, isFirst, handleSideBarOnClick, handleLoginOnClick]
   );
 };

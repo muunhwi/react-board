@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { RiMenu2Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const logo = "인기글 커뮤니티";
 
@@ -13,7 +14,7 @@ export const Logo = ({ onClick }) => {
         >
           <RiMenu2Line />
         </button>
-        {logo}
+        <Link to={"/"}>{logo}</Link>
       </div>
     );
   }, [onClick]);

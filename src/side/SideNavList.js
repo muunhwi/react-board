@@ -1,13 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import { initialMenu } from "../Constants";
 import { SideNavSubList } from "./SideNavSubList";
-
-const initialMenu = [
-  { id: 1, menu: "인증된 게시글", isActive: false },
-  { id: 2, menu: "미인증 게시글", isActive: false },
-  { id: 3, menu: "읽을 거리 게시판", isActive: false },
-  { id: 4, menu: "커뮤니티", isActive: false },
-];
 
 export const SideNavList = () => {
   const [sideNav, setSideNav] = useState([]);
@@ -27,7 +21,7 @@ export const SideNavList = () => {
 
   return useMemo(
     () => (
-      <ul className="p-3 mt-3 min-h-screen flex flex-col gap-y-5 ">
+      <ul className="p-3 mt-3  flex flex-col gap-y-5 ">
         {initialMenu.map((m) => (
           <li key={m.id}>
             <div className="text-lg flex justify-between">

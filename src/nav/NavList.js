@@ -1,12 +1,6 @@
 import { useMemo } from "react";
+import { initialMenu } from "../Constants";
 import { SubNavList } from "./SubNavList";
-
-const initialMenu = [
-  { id: 1, menu: "인증된 게시글" },
-  { id: 2, menu: "미인증 게시글" },
-  { id: 3, menu: "읽을 거리 게시판" },
-  { id: 4, menu: "커뮤니티" },
-];
 
 export const NavList = () => {
   return useMemo(

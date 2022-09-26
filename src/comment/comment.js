@@ -13,6 +13,8 @@ const Comment = ({ boardId }) => {
   const [comment, setComment] = useState("");
   const [reply, setReply] = useState("");
   const [commentActive, setCommentActive] = useState({});
+  const [updateActive, setUpdateActive] = useState({});
+  const [update, setUpdate] = useState("");
   const index = useRef(0);
 
   const commentInfo = useCallback(async () => {
@@ -23,15 +25,38 @@ const Comment = ({ boardId }) => {
     }
   }, [boardId]);
 
+  const commentWithUserInfo = useCallback(async () => {
+    const token = sessionStorage.getItem("access_token");
+    const res = await axios({
+      method: "get",
+      url: `/comment/state/${boardId}?page=${index.current}`,
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    if (res.data) {
+      setPage(res.data);
+      setCommentArr(res.data.content);
+    }
+  }, [boardId]);
+
+  const CallApi = useCallback(() => {
+    if (sessionStorage.getItem("refresh_token") !== null) {
+      commentWithUserInfo();
+    } else {
+      commentInfo();
+    }
+  }, [commentWithUserInfo, commentInfo]);
+
   useEffect(() => {
-    commentInfo();
-  }, [commentInfo]);
+    CallApi();
+  }, [CallApi]);
 
   const handleOnCommentActive = (id) => {
     if (commentActive?.id === id && commentActive?.isActive === true) {
       setCommentActive({ id: id, isActive: false });
     } else {
-      console.log(commentActive);
       setCommentActive({ id: id, isActive: true });
     }
   };
@@ -40,9 +65,20 @@ const Comment = ({ boardId }) => {
     setComment(e.target.value);
   };
 
+  const handleOnUpdateChange = (e) => {
+    setUpdate(e.target.value);
+  };
+
+  const handleOnUpdate = (e, id) => {
+    e.preventDefault();
+    TokenFetchPost(`/comment/update/${id}`, update, CallApi);
+    setUpdate("");
+    commentUpdateOnClick(e, id);
+  };
+
   const handleOnComment = (e) => {
     e.preventDefault();
-    TokenFetchPost(`/comment/${boardId}`, comment, commentInfo);
+    TokenFetchPost(`/comment/${boardId}`, comment, CallApi);
     setComment("");
   };
 
@@ -52,17 +88,38 @@ const Comment = ({ boardId }) => {
 
   const handleOnReply = (e, replyId) => {
     e.preventDefault();
-    TokenFetchPost(`/reply/${boardId}/${replyId}`, reply, commentInfo);
+    TokenFetchPost(`/reply/${boardId}/${replyId}`, reply, CallApi);
     setCommentActive({ id: replyId, isActive: false });
     setReply("");
   };
 
   const handleOnRecommended = (e, commentId, isRecommended) => {
-    TokenFetchPost(
-      `/comment/recommended/${commentId}`,
-      isRecommended,
-      commentInfo
-    );
+    TokenFetchPost(`/comment/recommended/${commentId}`, isRecommended, CallApi);
+  };
+
+  const commentDeleteOnClick = async (e, id) => {
+    const token = sessionStorage.getItem("access_token");
+    if (token == null) {
+      alert("세션이 만료되었습니다.");
+      return;
+    }
+    const res = await axios({
+      method: "get",
+      url: `/comment/delete/${id}`,
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    CallApi();
+  };
+
+  const commentUpdateOnClick = async (e, id) => {
+    if (updateActive?.id === id && updateActive?.isActive === true) {
+      setUpdateActive({ id: id, isActive: false });
+    } else {
+      setUpdateActive({ id: id, isActive: true });
+    }
   };
 
   return (
@@ -102,15 +159,45 @@ const Comment = ({ boardId }) => {
                     >
                       댓글 달기
                     </button>
+                    <button
+                      onClick={(e) => commentUpdateOnClick(e, c.id)}
+                      className={
+                        c.flag === true && c.isDeleted === false
+                          ? "px-2 block"
+                          : "hidden"
+                      }
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={(e) => commentDeleteOnClick(e, c.id)}
+                      className={
+                        c.flag === true && c.isDeleted === false
+                          ? "px-2 block"
+                          : "hidden"
+                      }
+                    >
+                      삭제
+                    </button>
                   </div>
                   <ReplyInput
                     id={c.id}
                     commentActive={commentActive}
                     handleOnReply={handleOnReply}
                     handleOnChangeReply={handleOnChangeReply}
+                    value={reply}
+                  />
+                  <ReplyInput
+                    id={c.id}
+                    commentActive={updateActive}
+                    handleOnReply={(e) => handleOnUpdate(e, c.id)}
+                    handleOnChangeReply={handleOnUpdateChange}
+                    value={update}
                   />
                 </div>
                 <Reply
+                  update={update}
+                  reply={reply}
                   parent={c}
                   commentArr={commentArr}
                   commentActive={commentActive}
@@ -118,6 +205,10 @@ const Comment = ({ boardId }) => {
                   handleOnChangeReply={handleOnChangeReply}
                   handleOnCommentActive={handleOnCommentActive}
                   handleOnRecommended={handleOnRecommended}
+                  handleOnUpdate={handleOnUpdate}
+                  handleOnUpdateChange={handleOnUpdateChange}
+                  commentUpdateOnClick={commentUpdateOnClick}
+                  commentDeleteOnClick={commentDeleteOnClick}
                 />
               </li>
             ))}

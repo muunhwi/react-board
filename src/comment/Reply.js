@@ -4,18 +4,25 @@ import ReplyInput from "./ReplyInput";
 const Reply = ({
   parent,
   commentArr,
+  updateActive,
   commentActive,
   handleOnReply,
+  handleOnUpdate,
+  handleOnUpdateChange,
   handleOnChangeReply,
   handleOnCommentActive,
   handleOnRecommended,
+  commentUpdateOnClick,
+  commentDeleteOnClick,
+  update,
+  reply,
 }) => {
   return (
     <ul className="ml-7">
       {commentArr
         .filter((r) => r.group === parent.group && r.step === 1)
         .map((r) => (
-          <li key={r.id}>
+          <li id={r.id} key={r.id}>
             <div className="flex justify-between bg-violet-200 p-3 border-b">
               <span>{r.name}</span>
               <span>{r.hoursAgo}</span>
@@ -41,12 +48,40 @@ const Reply = ({
                 >
                   댓글 달기
                 </button>
+                <button
+                  onClick={(e) => commentUpdateOnClick(e, r.id)}
+                  className={
+                    r.flag === true && r.isDeleted === false
+                      ? "px-2 block"
+                      : "hidden"
+                  }
+                >
+                  수정
+                </button>
+                <button
+                  onClick={(e) => commentDeleteOnClick(e, r.id)}
+                  className={
+                    r.flag === true && r.isDeleted === false
+                      ? "px-2 block"
+                      : "hidden"
+                  }
+                >
+                  삭제
+                </button>
               </div>
               <ReplyInput
                 id={r.id}
                 commentActive={commentActive}
                 handleOnReply={handleOnReply}
                 handleOnChangeReply={handleOnChangeReply}
+                value={reply}
+              />
+              <ReplyInput
+                id={r.id}
+                commentActive={updateActive}
+                handleOnReply={(e) => handleOnUpdate(e, r.id)}
+                handleOnChangeReply={handleOnUpdateChange}
+                value={update}
               />
             </div>
           </li>

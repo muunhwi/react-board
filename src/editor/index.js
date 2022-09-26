@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "quill/dist/quill.snow.css";
 import axios from "axios";
 import "./style.css";
 import { useQuill } from "react-quilljs";
 
-export const Editor = ({ onChange, validation }) => {
+export const Editor = ({ onChange, validation, value }) => {
+  const [flag, setFlag] = useState(true);
   const { quill, quillRef } = useQuill(
     useMemo(() => {
       return {
@@ -61,12 +62,16 @@ export const Editor = ({ onChange, validation }) => {
 
   useEffect(() => {
     if (quill) {
+      if (value && flag) {
+        quill.root.innerHTML = value;
+        setFlag(false);
+      }
       quill.on("text-change", (delta, oldDelta, source) => {
         onChange(quill.root.innerHTML);
       });
       quill.getModule("toolbar").addHandler("image", selectLocalImage);
     }
-  }, [quill, selectLocalImage, onChange]);
+  }, [quill, flag, value, selectLocalImage, onChange]);
 
   return (
     <div className="w-full md:w-3/4 z-10">

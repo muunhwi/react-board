@@ -105,20 +105,24 @@ const BoardList = () => {
               </tr>
             </thead>
             <tbody className="truncate ...">
-              {list?.map((c) => {
-                return (
-                  <tr key={c.boardId} className="border-b hover:bg-gray-100">
-                    <td className="w-8/12 indent-1  p-1">
-                      <Link to={`/board/${c.boardId}`}>{c.title}</Link>
-                    </td>
-                    <td className="w-40">{c.nickname}</td>
-                    <td className="text-center text-blue-600">
-                      {c.commentCount}
-                    </td>
-                    <td className="text-center text-gray-400">{c.hoursAgo}</td>
-                  </tr>
-                );
-              })}
+              {list
+                ?.filter((c) => c.isDeleted === false)
+                .map((c) => {
+                  return (
+                    <tr key={c.boardId} className="border-b hover:bg-gray-100">
+                      <td className="w-8/12 indent-1  p-1">
+                        <Link to={`/board/${c.boardId}`}>{c.title}</Link>
+                      </td>
+                      <td className="w-40">{c.nickname}</td>
+                      <td className="text-center text-blue-600">
+                        {c.commentCount}
+                      </td>
+                      <td className="text-center text-gray-400">
+                        {c.hoursAgo}
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
           <div className="mt-5">

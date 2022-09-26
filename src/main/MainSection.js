@@ -24,14 +24,16 @@ const MainSection = ({ item }) => {
           <Link to={`/list/${item.id}`}>{item.menu}</Link>
         </span>
         <ul className="mt-3">
-          {list.map((b) => (
-            <li className="p-1 h-8 border-b truncate ..." key={b.id}>
-              <Link to={`/board/${b.boardId}`}>
-                {b.title}
-                <span className="text-violet-600 ml-8">{b.commentCount}</span>
-              </Link>
-            </li>
-          ))}
+          {list
+            ?.filter((c) => c.isDeleted === false)
+            .map((c) => (
+              <li className="p-1 h-8 border-b truncate ..." key={c.boardId}>
+                <Link to={`/board/${c.boardId}`}>
+                  {c.title}
+                  <span className="text-violet-600 ml-8">{c.commentCount}</span>
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
     </div>

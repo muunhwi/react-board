@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MainBackground from "../main/MainBackground";
@@ -7,15 +6,11 @@ const ErrorPage = () => {
   const [status, setStatus] = useState(404);
 
   const errorInfo = useCallback(async () => {
-    try {
-      if (window.location.pathname === "/write") {
-        await axios({
-          method: "get",
-          url: `${window.location.pathname}`,
-        });
+    const path = window.location.pathname;
+    if (path === "/write" || path === "/mypage") {
+      if (sessionStorage.getItem("refresh_token") === null) {
+        setStatus(401);
       }
-    } catch (e) {
-      setStatus(e.response.status);
     }
   }, []);
 

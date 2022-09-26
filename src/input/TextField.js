@@ -1,4 +1,4 @@
-export const TextField = ({ input, onChange, validation }) => {
+export const TextField = ({ input, onChange, validation, value }) => {
   return (
     <div className="w-full mt-2">
       <label
@@ -14,6 +14,7 @@ export const TextField = ({ input, onChange, validation }) => {
                    p-2.5 outline-none h-10`}
         placeholder={input.placeholder}
         onChange={onChange}
+        value={value}
       />
       <p className={"mt-2 text-sm text-red-600 "}>
         {validation?.isSubmit ? validation?.message : ""}

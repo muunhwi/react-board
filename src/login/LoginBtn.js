@@ -139,7 +139,15 @@ export const LoginBtn = ({ loginModal, onClick }) => {
           bg-fuchsia-400 hover:-translate-y-1 hover:scale-105 hover:bg-fuchsia-400 duration-300 block"
             to={"/write"}
           >
-            글쓰기
+            write
+          </Link>
+          <Link
+            className="w-16 h-8 shadow-sm flex justify-center items-center
+          border-inherit rounded-lg text-white transition ease-in-out 
+          bg-fuchsia-400 hover:-translate-y-1 hover:scale-105 hover:bg-fuchsia-400 duration-300 block"
+            to={"/mypage"}
+          >
+            mypage
           </Link>
         </div>
       ) : (

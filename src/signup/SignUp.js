@@ -95,7 +95,6 @@ const SignUp = ({ open, signUpOpenClick, loginOpenClick }) => {
         loginOpenClick();
       }
     } catch (e) {
-      console.log(e.response.data);
       const message = e.response.data.message;
       if (message === "email") {
         setGlobalError("이메일");

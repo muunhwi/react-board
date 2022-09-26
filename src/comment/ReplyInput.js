@@ -5,6 +5,7 @@ const ReplyInput = ({
   commentActive,
   handleOnChangeReply,
   handleOnReply,
+  value,
 }) => {
   return (
     <div
@@ -17,6 +18,7 @@ const ReplyInput = ({
       <Textarea
         onChange={handleOnChangeReply}
         onClick={(e) => handleOnReply(e, id)}
+        value={value}
       />
     </div>
   );

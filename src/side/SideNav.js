@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { SideLoginBtn } from "../login/SideLoginBtn";
 import { SideNavList } from "./SideNavList";
 
@@ -22,10 +22,16 @@ export const SideNav = ({ bar, isFirst, onClick, onLoginClick }) => {
             bar ? "animate-move " : "animate-revMove "
           } bg-white h-full shadow-xl w-80  absolute top-0 z-30`}
         >
-          <SideLoginBtn onClick={handleLoginOnClick} />
+          <div className="flex items-center bg-purple-500 h-24 justify-evenly shadow-md">
+            <div className="min-h-min p-2">
+              <span className="flex min-w-min text-3xl text-white">
+                SideBar
+              </span>
+            </div>
+          </div>
           <SideNavList />
         </div>
       </div>
     );
-  }, [bar, isFirst, onClick, handleLoginOnClick]);
+  }, [bar, isFirst, onClick]);
 };

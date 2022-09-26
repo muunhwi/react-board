@@ -10,7 +10,8 @@ const MyPage = () => {
   const [list, setList] = useState([]);
   const [isBoardActive, setBoardActive] = useState(false);
   const [isCommentActive, setCommentActive] = useState(false);
-  const index = useRef(0);
+  const boardIndex = useRef(0);
+  const commentIndex = useRef(0);
 
   const boardListInfo = useCallback(async () => {
     const token = sessionStorage.getItem("access_token");
@@ -21,7 +22,7 @@ const MyPage = () => {
     try {
       const res = await axios({
         method: "get",
-        url: `/board/mypage`,
+        url: `/board/mypage?page=${boardIndex.current}`,
         headers: {
           Authorization: "Bearer " + token,
           "Content-type": "application/json; charset=UTF-8",
@@ -44,7 +45,7 @@ const MyPage = () => {
     try {
       const res = await axios({
         method: "get",
-        url: `/comment/mypage`,
+        url: `/comment/mypage?page=${commentIndex.current}`,
         headers: {
           Authorization: "Bearer " + token,
           "Content-type": "application/json; charset=UTF-8",
@@ -151,7 +152,7 @@ const MyPage = () => {
             </tbody>
           </table>
           <div className="mt-5">
-            <Page page={page} index={index} fetch={boardListInfo} />
+            <Page page={page} index={boardIndex} fetch={boardListInfo} />
           </div>
         </div>
       )}
@@ -183,7 +184,7 @@ const MyPage = () => {
             </tbody>
           </table>
           <div className="mt-5">
-            <Page page={page} index={index} fetch={commentListInfo} />
+            <Page page={page} index={commentIndex} fetch={commentListInfo} />
           </div>
         </div>
       )}

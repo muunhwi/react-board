@@ -38,14 +38,9 @@ export const LoginBtn = ({ loginModal, onClick }) => {
   const [validationArr, setArr] = useState(inputType);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(false);
   const [signUpOpen, setsignUpOpen] = useState(false);
   const [globalError, setGlobalError] = useState("");
-
-  const signUpOpenClick = () => {
-    setGlobalError("");
-    setsignUpOpen(!signUpOpen);
-  };
+  const [token, setToken] = useState(false);
 
   const isLogin = async (token) => {
     try {
@@ -61,11 +56,18 @@ export const LoginBtn = ({ loginModal, onClick }) => {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem("refresh_token");
-    if (token) {
-      isLogin(token);
+    const refresh_token = sessionStorage.getItem("refresh_token");
+    if (refresh_token) {
+      isLogin(refresh_token);
+    } else {
+      setToken(false);
     }
   }, [token]);
+
+  const signUpOpenClick = () => {
+    setGlobalError("");
+    setsignUpOpen(!signUpOpen);
+  };
 
   const fieldChangeValidation = (name, value, type) => {
     const newValid = Validation(name, value, type);
@@ -121,7 +123,7 @@ export const LoginBtn = ({ loginModal, onClick }) => {
   const handleOnLogout = () => {
     sessionStorage.removeItem("refresh_token");
     sessionStorage.removeItem("access_token");
-    setToken(!token);
+    setToken(false);
   };
 
   const getValidation = (name) => {

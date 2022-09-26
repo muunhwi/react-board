@@ -11,6 +11,11 @@ REACT 1.8<br>
 TAILWINDCSS<br>
 
 # 구현 기능
+### 화면 레이아웃
+https://user-images.githubusercontent.com/110352078/192250298-94539936-9e72-43ee-922a-3f27d06d1a99.mp4
+
+https://user-images.githubusercontent.com/110352078/192250387-46f5671f-7fd2-41cd-b1cd-7efa31130ed3.mp4
+
 #### 글쓰기 기능
 ![board](https://user-images.githubusercontent.com/110352078/192246904-59260c85-5c90-46b0-a352-290ca82e52fc.gif)
 
@@ -28,8 +33,3 @@ https://user-images.githubusercontent.com/110352078/192247868-19e77b52-98fa-4b8c
 
 #### mypage
 https://user-images.githubusercontent.com/110352078/192249562-7808ab80-caca-4698-8b44-cf60062a8d6f.mp4
-
-### 화면 레이아웃
-https://user-images.githubusercontent.com/110352078/192250298-94539936-9e72-43ee-922a-3f27d06d1a99.mp4
-
-https://user-images.githubusercontent.com/110352078/192250387-46f5671f-7fd2-41cd-b1cd-7efa31130ed3.mp4

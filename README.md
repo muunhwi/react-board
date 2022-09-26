@@ -3,12 +3,12 @@
 SPRING BOOT와 JPA를 이용하여 간단한 [API 서버](https://github.com/muunhwi/spring-board-api)를 만들었으며 REACT를 활용하여 SERVER와 비동기 통신하며 화면을 랜더링 되도록 했습니다.
 
 # 사용 기술
-### JAVA 11<br>
-### JAVASCRIPT<br>
-### SPRING DATA JPA<br>
-### SPRING BOOT 2.7<br>
-### REACT 1.8<br>
-### TAILWINDCSS<br>
+JAVA 11<br>
+JAVASCRIPT<br>
+SPRING DATA JPA<br>
+SPRING BOOT 2.7<br>
+REACT 1.8<br>
+TAILWINDCSS<br>
 
 # 구현 기능
 #### 글쓰기 기능

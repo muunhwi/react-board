@@ -6,6 +6,7 @@ JAVA, JAVASCRIPT,SPRING DATA JPA, SPRING, REACT
 REACT-QUILLS, QUERYDSL, TAILWINDCSS
 
 # 구현 기능
-
+#### 글쓰기 기능
+![board](https://user-images.githubusercontent.com/110352078/192246904-59260c85-5c90-46b0-a352-290ca82e52fc.gif)
 
 

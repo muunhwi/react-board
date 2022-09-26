@@ -1,6 +1,6 @@
 # 소개
 [개드립](https://www.dogdrip.net/)이라는 커뮤니티 사이트를 비슷하게 만들려고 노력했습니다. <br>
-SPRING BOOT와 JPA를 이용하여 간단한 API 서버를 만들었으며 REACT를 활용하여 SERVER와 비동기 통신하며 화면을 랜더링 되도록 했습니다.
+SPRING BOOT와 JPA를 이용하여 간단한 [API 서버](https://github.com/muunhwi/spring-board-api)를 만들었으며 REACT를 활용하여 SERVER와 비동기 통신하며 화면을 랜더링 되도록 했습니다.
 
 # 사용 기술
 ### JAVA 11<br>

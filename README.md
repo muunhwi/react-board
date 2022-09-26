@@ -1,9 +1,14 @@
 # 소개
-[개드립](https://www.dogdrip.net/)이라는 커뮤니티 사이트를 간단하게나마 비슷하게 만들려고 노력했습니다.
+[개드립](https://www.dogdrip.net/)이라는 커뮤니티 사이트를 비슷하게 만들려고 노력했습니다. <br>
+SPRING BOOT와 JPA를 이용하여 간단한 API 서버를 만들었으며 REACT를 활용하여 SERVER와 비동기 통신하며 화면을 랜더링 되도록 했습니다.
 
 # 사용 기술
-JAVA, JAVASCRIPT,SPRING DATA JPA, SPRING, REACT
-REACT-QUILLS, QUERYDSL, TAILWINDCSS
+### JAVA 11<br>
+### JAVASCRIPT<br>
+### SPRING DATA JPA<br>
+### SPRING BOOT 2.7<br>
+### REACT 1.8<br>
+### TAILWINDCSS<br>
 
 # 구현 기능
 #### 글쓰기 기능
@@ -23,3 +28,8 @@ https://user-images.githubusercontent.com/110352078/192247868-19e77b52-98fa-4b8c
 
 #### mypage
 https://user-images.githubusercontent.com/110352078/192249562-7808ab80-caca-4698-8b44-cf60062a8d6f.mp4
+
+### 화면 레이아웃
+https://user-images.githubusercontent.com/110352078/192250298-94539936-9e72-43ee-922a-3f27d06d1a99.mp4
+
+https://user-images.githubusercontent.com/110352078/192250387-46f5671f-7fd2-41cd-b1cd-7efa31130ed3.mp4
